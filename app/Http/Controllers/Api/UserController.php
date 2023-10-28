@@ -50,11 +50,39 @@ class UserController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update(UserRequest $request, string $id)
     {
-        //
+        $validated = $request->validated();
+        $carouselItem = User::findOrFail($id)->update($validated);
+        return $carouselItem;
     }
 
+    public function name(UserRequest $request, string $id)
+    {
+        $user = User::findOrFail($id);
+        $validated = $request->validated();
+        $user->name = $validated['name'];
+        $user->save();
+        return $user;
+    }
+
+    public function password(UserRequest $request, string $id)
+    {
+        $user = User::findOrFail($id);
+        $validated = $request->validated();
+        $user->password = $validated['password'];
+        $user->save();
+        return $user;
+    }
+
+    public function email(UserRequest $request, string $id)
+    {
+        $user = User::findOrFail($id);
+        $validated = $request->validated();
+        $user->email = $validated['email'];
+        $user->save();
+        return $user;
+    }
     /**
      * Remove the specified resource from storage.
      */
